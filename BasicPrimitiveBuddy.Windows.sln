@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicPrimitiveBuddy", "BasicPrimitiveBuddy.csproj", "{3523FC5D-C708-4AFE-A751-CEFA75C57717}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicPrimitiveBuddy.Windows", "BasicPrimitiveBuddy\BasicPrimitiveBuddy.Windows.csproj", "{3523FC5D-C708-4AFE-A751-CEFA75C57717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +13,9 @@ Global
 		{3523FC5D-C708-4AFE-A751-CEFA75C57717}.Debug|x86.Build.0 = Debug|x86
 		{3523FC5D-C708-4AFE-A751-CEFA75C57717}.Release|x86.ActiveCfg = Release|x86
 		{3523FC5D-C708-4AFE-A751-CEFA75C57717}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = BasicPrimitiveBuddy\BasicPrimitiveBuddy.Windows.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
