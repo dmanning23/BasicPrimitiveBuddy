@@ -823,6 +823,21 @@ namespace BasicPrimitiveBuddy
 			RenderLinePrimitive(mySpriteBatch);
 		}
 
+		/// <summary>
+		/// Draw a stupid rectanlge.
+		/// This is the easiest way to draw a rectangle
+		/// </summary>
+		/// <param name="myRect">the rectangle to draw</param>
+		/// <param name="myColor">the color to use to draw the rectangle</param>
+		/// <param name="mySpriteBatch">My sprite batch.</param>
+		public void Rectangle(Rectangle myRect, Color myColor, SpriteBatch mySpriteBatch)
+		{
+			Colour = myColor;
+			CreateSquare(new Vector2(myRect.Left, myRect.Top), 
+			             new Vector2(myRect.Right, myRect.Bottom));
+			RenderLinePrimitive(mySpriteBatch);
+		}
+
 		#endregion // Public Methods
 	}
 }
