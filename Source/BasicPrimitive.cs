@@ -787,6 +787,21 @@ namespace BasicPrimitiveBuddy
 		/// <param name="fRadius">radius of the desired circle</param>
 		/// <param name="myColor">color of the circle to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
+		public void Point(Vector2 vPosition, Color myColor, SpriteBatch mySpriteBatch)
+		{
+			Position = vPosition;
+			Colour = myColor;
+			CreateCircle(1.0f, 20);
+			RenderLinePrimitive(mySpriteBatch);
+		}
+
+		/// <summary>
+		/// draw a quick circle
+		/// </summary>
+		/// <param name="vPosition">where to draw the circle</param>
+		/// <param name="fRadius">radius of the desired circle</param>
+		/// <param name="myColor">color of the circle to draw</param>
+		/// <param name="mySpriteBatch">graphic object used to draw</param>
 		public void Circle(Vector2 vPosition, float fRadius, Color myColor, SpriteBatch mySpriteBatch)
 		{
 			Position = vPosition;
