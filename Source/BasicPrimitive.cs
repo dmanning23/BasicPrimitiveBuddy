@@ -160,7 +160,7 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		/// <param name="_vStart">Start of the line, in pixels.</param>
 		/// <param name="_vEnd">End of the line, in pixels.</param>
-		public void CreateLine(Vector2 _vStart, Vector2 _vEnd)
+		private void CreateLine(Vector2 _vStart, Vector2 _vEnd)
 		{
 			m_VectorList.Clear();
 			m_VectorList.Add(_vStart);
@@ -173,7 +173,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_vPoint1">Fist point, in pixels.</param>
 		/// <param name="_vPoint2">Second point, in pixels.</param>
 		/// <param name="_vPoint3">Third point, in pixels.</param>
-		public void CreateTriangle(Vector2 _vPoint1, Vector2 _vPoint2, Vector2 _vPoint3)
+		private void CreateTriangle(Vector2 _vPoint1, Vector2 _vPoint2, Vector2 _vPoint3)
 		{
 			m_VectorList.Clear();
 			m_VectorList.Add(_vPoint1);
@@ -187,7 +187,7 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		/// <param name="_vTopLeft">Top left hand corner of the square.</param>
 		/// <param name="_vBottomRight">Bottom right hand corner of the square.</param>
-		public void CreateSquare(Vector2 _vTopLeft, Vector2 _vBottomRight)
+		private void CreateSquare(Vector2 _vTopLeft, Vector2 _vBottomRight)
 		{
 			m_VectorList.Clear();
 			m_VectorList.Add(_vTopLeft);
@@ -202,7 +202,7 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		/// <param name="_fRadius">The radius (half the width) of the circle.</param>
 		/// <param name="_nSides">The number of sides on the circle. (64 is average).</param>
-		public void CreateCircle(float _fRadius, int _nSides)
+		private void CreateCircle(float _fRadius, int _nSides)
 		{
 			m_VectorList.Clear();
 
@@ -224,7 +224,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_fSemiMajorAxis">The width of the ellipse at its center.</param>
 		/// <param name="_fSemiMinorAxis">The height of the ellipse at its center.</param>
 		/// <param name="_nSides">The number of sides on the ellipse. (64 is average).</param>
-		public void CreateEllipse(float _fSemiMajorAxis, float _fSemiMinorAxis, int _nSides)
+		private void CreateEllipse(float _fSemiMajorAxis, float _fSemiMinorAxis, int _nSides)
 		{
 			m_VectorList.Clear();
 
@@ -248,7 +248,7 @@ namespace BasicPrimitiveBuddy
 		/// Render points of the primitive.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		public void RenderPointPrimitive(SpriteBatch _spriteBatch)
+		private void RenderPointPrimitive(SpriteBatch _spriteBatch)
 		{
 			// Validate.
 			if (m_VectorList.Count <= 0)
@@ -288,7 +288,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		public void RenderPointPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderPointPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
 			if (m_VectorList.Count <= 0)
@@ -329,7 +329,7 @@ namespace BasicPrimitiveBuddy
 		/// Render the lines of the primitive.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		public void RenderLinePrimitive(SpriteBatch _spriteBatch)
+		private void RenderLinePrimitive(SpriteBatch _spriteBatch)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -372,7 +372,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		public void RenderLinePrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderLinePrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -416,7 +416,7 @@ namespace BasicPrimitiveBuddy
 		/// Render primitive by using a square algorithm.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		public void RenderSquarePrimitive(SpriteBatch _spriteBatch)
+		private void RenderSquarePrimitive(SpriteBatch _spriteBatch)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -474,7 +474,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		public void RenderSquarePrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderSquarePrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -533,7 +533,7 @@ namespace BasicPrimitiveBuddy
 		/// Render primitive by using a round algorithm.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		public void RenderRoundPrimitive(SpriteBatch _spriteBatch)
+		private void RenderRoundPrimitive(SpriteBatch _spriteBatch)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -591,7 +591,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		public void RenderRoundPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderRoundPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -650,7 +650,7 @@ namespace BasicPrimitiveBuddy
 		/// Render primitive by using a point and line algorithm.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		public void RenderPolygonPrimitive(SpriteBatch _spriteBatch)
+		private void RenderPolygonPrimitive(SpriteBatch _spriteBatch)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
@@ -704,7 +704,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		public void RenderPolygonPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderPolygonPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
 			if (m_VectorList.Count < 2)
