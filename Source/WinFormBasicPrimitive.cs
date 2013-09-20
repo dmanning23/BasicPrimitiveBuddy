@@ -9,7 +9,7 @@ namespace BasicPrimitiveBuddy
 	/// <summary>
 	/// Render a simple 2D shape.
 	/// </summary>
-	public class BasicPrimitive : IBasicPrimitive
+	public class WinFormBasicPrimitive : IBasicPrimitive
 	{
 		#region Members
 
@@ -26,7 +26,7 @@ namespace BasicPrimitiveBuddy
 		/// Creates a new primitive object.
 		/// </summary>
 		/// <param name="_graphicsDevice">The graphics device object to use.</param>
-		public BasicPrimitive(Form form)
+		public WinFormBasicPrimitive(Form form)
 		{
 			m_Form = form;
 		}

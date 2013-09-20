@@ -8,7 +8,7 @@ namespace BasicPrimitiveBuddy
 	/// <summary>
 	/// Render a simple 2D shape.
 	/// </summary>
-	public class BasicPrimitive : IBasicPrimitive
+	public class XNABasicPrimitive : IBasicPrimitive
 	{
 		#region Members
 
@@ -69,7 +69,7 @@ namespace BasicPrimitiveBuddy
 		/// Creates a new primitive object.
 		/// </summary>
 		/// <param name="_graphicsDevice">The graphics device object to use.</param>
-		public BasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
+		public XNABasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
 		{
 			m_SpriteBatch = spritebatch;
 
