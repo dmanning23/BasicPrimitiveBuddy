@@ -92,7 +92,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Source\BasicPrimitive.cs">
+    <Compile Include="..\Source\IBasicPrimitive.cs">
+      <Link>IBasicPrimitive.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\XNA\BasicPrimitive.cs">
       <Link>BasicPrimitive.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

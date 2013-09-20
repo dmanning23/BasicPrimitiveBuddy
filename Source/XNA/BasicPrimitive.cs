@@ -8,7 +8,7 @@ namespace BasicPrimitiveBuddy
 	/// <summary>
 	/// Render a simple 2D shape.
 	/// </summary>
-	public class BasicPrimitive
+	public class BasicPrimitive : IBasicPrimitive
 	{
 		#region Members
 
@@ -18,17 +18,16 @@ namespace BasicPrimitiveBuddy
 		/// <summary>The position of the primitive object.</summary>
 		private Vector2 m_vPosition = Vector2.Zero;
 
-		/// <summary>The render depth of the primitive line object (0 = front, 1 = back).</summary>
-		private float m_fDepth = 0f;
-
-		/// <summary>The thickness of the shape's edge.</summary>
-		private float m_fThickness = 1f;
-
 		/// <summary>1x1 pixel that creates the shape.</summary>
 		private Texture2D m_Pixel = null;
 
 		/// <summary>List of vectors.</summary>
 		private List<Vector2> m_VectorList = new List<Vector2>();
+
+		/// <summary>
+		/// The sprite batch this dude gonna render with.
+		/// </summary>
+		private SpriteBatch m_SpriteBatch;
 
 		#endregion //Members
 
@@ -55,37 +54,12 @@ namespace BasicPrimitiveBuddy
 		/// <summary>
 		/// Get/Set the render depth of the primitive line object (0 = front, 1 = back).
 		/// </summary>
-		public float Depth
-		{
-			get { return m_fDepth; }
-			set { m_fDepth = value; }
-		}
+		public float Depth { get; set; }
 
 		/// <summary>
 		/// Get/Set the thickness of the shape's edge.
 		/// </summary>
-		public float Thickness
-		{
-			get { return m_fThickness; }
-			set { m_fThickness = value; }
-		}
-
-		/// <summary>
-		/// Gets the number of vectors which make up the primitive object.
-		/// </summary>
-		private int CountVectors
-		{
-			get { return m_VectorList.Count; }
-		}
-
-		/// <summary>
-		/// Gets the vector position from the list.
-		/// </summary>
-		/// <param name="_nIndex">The index to get from.</param>
-		private Vector2 GetVector(int _nIndex)
-		{
-			return m_VectorList[_nIndex];
-		}
+		public float Thickness { get; set; }
 
 		#endregion // Properties
 
@@ -95,63 +69,16 @@ namespace BasicPrimitiveBuddy
 		/// Creates a new primitive object.
 		/// </summary>
 		/// <param name="_graphicsDevice">The graphics device object to use.</param>
-		public BasicPrimitive(GraphicsDevice _graphicsDevice)
+		public BasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
 		{
+			m_SpriteBatch = spritebatch;
+
 			// Create the pixel texture.
-			m_Pixel = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			m_Pixel = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_Pixel.SetData<Color>(new Color[] { Color.White });
 		}
 
 		#endregion // Initialization
-
-		#region List Manipulation Methods
-
-		/// <summary>
-		/// Adds a vector to the primitive object.
-		/// </summary>
-		/// <param name="_vPosition">The vector to add.</param>
-		private void AddVector(Vector2 _vPosition)
-		{
-			m_VectorList.Add(_vPosition);
-		}
-
-		/// <summary>
-		/// Inserts a vector into the primitive object.
-		/// </summary>
-		/// <param name="_nIndex">The index to insert it at.</param>
-		/// <param name="_vPosition">The vector to insert.</param>
-		private void InsertVector(int _nIndex, Vector2 _vPosition)
-		{
-			m_VectorList.Insert(_nIndex, _vPosition);
-		}
-
-		/// <summary>
-		/// Removes a vector from the primitive object.
-		/// </summary>
-		/// <param name="_vPosition">The vector to remove.</param>
-		private void RemoveVector(Vector2 _vPosition)
-		{
-			m_VectorList.Remove(_vPosition);
-		}
-
-		/// <summary>
-		/// Removes a vector from the primitive object.
-		/// </summary>
-		/// <param name="_nIndex">The index of the vector to remove.</param>
-		private void RemoveVector(int _nIndex)
-		{
-			m_VectorList.RemoveAt(_nIndex);
-		}
-
-		/// <summary>
-		/// Clears all vectors from the list.
-		/// </summary>
-		private void ClearVectors()
-		{
-			m_VectorList.Clear();
-		}
-
-		#endregion // List Manipulation Methods
 
 		#region Creation Methods
 
@@ -276,9 +203,9 @@ namespace BasicPrimitiveBuddy
 								  m_Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
-								  m_fThickness,
+								  Thickness,
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 			}
 		}
 
@@ -319,9 +246,9 @@ namespace BasicPrimitiveBuddy
 								  m_Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
-								  m_fThickness,
+								  Thickness,
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 			}
 		}
 
@@ -360,9 +287,9 @@ namespace BasicPrimitiveBuddy
 								  m_Color,
 								  fAngle,
 								  new Vector2(0, 0.5f),
-								  new Vector2(fDistance, m_fThickness),
+								  new Vector2(fDistance, Thickness),
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 			}
 		}
 
@@ -406,9 +333,9 @@ namespace BasicPrimitiveBuddy
 								  m_Color,
 								  fAngle,
 								  new Vector2(0, 0.5f),
-								  new Vector2(fDistance, m_fThickness),
+								  new Vector2(fDistance, Thickness),
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 			}
 		}
 
@@ -461,9 +388,9 @@ namespace BasicPrimitiveBuddy
 									  m_Color,
 									  0,
 									  Vector2.Zero,
-									  m_fThickness,
+									  Thickness,
 									  SpriteEffects.None,
-									  m_fDepth);
+									  Depth);
 				}
 			}
 		}
@@ -522,9 +449,9 @@ namespace BasicPrimitiveBuddy
 									  m_Color,
 									  0,
 									  Vector2.Zero,
-									  m_fThickness,
+									  Thickness,
 									  SpriteEffects.None,
-									  m_fDepth);
+									  Depth);
 				}
 			}
 		}
@@ -578,9 +505,9 @@ namespace BasicPrimitiveBuddy
 									  m_Color,
 									  fAngle,
 									  new Vector2(0.5f, 0.5f),
-									  new Vector2(fDistance, m_fThickness),
+									  new Vector2(fDistance, Thickness),
 									  SpriteEffects.None,
-									  m_fDepth);
+									  Depth);
 				}
 			}
 		}
@@ -639,9 +566,9 @@ namespace BasicPrimitiveBuddy
 									  m_Color,
 									  fAngle,
 									  new Vector2(0.5f, 0.5f),
-									  new Vector2(fDistance, m_fThickness),
+									  new Vector2(fDistance, Thickness),
 									  SpriteEffects.None,
-									  m_fDepth);
+									  Depth);
 				}
 			}
 		}
@@ -683,7 +610,7 @@ namespace BasicPrimitiveBuddy
 								  new Vector2(0.5f, 0.5f),
 								  new Vector2(fDistance, Thickness),
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 
 				// Render the points of the polygon.
 				_spriteBatch.Draw(m_Pixel,
@@ -692,9 +619,9 @@ namespace BasicPrimitiveBuddy
 								  m_Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
-								  m_fThickness,
+								  Thickness,
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 			}
 		}
 
@@ -740,7 +667,7 @@ namespace BasicPrimitiveBuddy
 								  new Vector2(0.5f, 0.5f),
 								  new Vector2(fDistance, Thickness),
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 
 				// Render the points of the polygon.
 				_spriteBatch.Draw(m_Pixel,
@@ -749,9 +676,9 @@ namespace BasicPrimitiveBuddy
 								  m_Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
-								  m_fThickness,
+								  Thickness,
 								  SpriteEffects.None,
-								  m_fDepth);
+								  Depth);
 			}
 		}
 
@@ -781,18 +708,18 @@ namespace BasicPrimitiveBuddy
 		}
 
 		/// <summary>
-		/// draw a quick circle
+		/// draw a single point
 		/// </summary>
 		/// <param name="vPosition">where to draw the circle</param>
 		/// <param name="fRadius">radius of the desired circle</param>
 		/// <param name="myColor">color of the circle to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void Point(Vector2 vPosition, Color myColor, SpriteBatch mySpriteBatch)
+		public void Point(Vector2 vPosition, Color myColor)
 		{
 			Position = vPosition;
 			Colour = myColor;
 			CreateCircle(1.0f, 20);
-			RenderLinePrimitive(mySpriteBatch);
+			RenderLinePrimitive(m_SpriteBatch);
 		}
 
 		/// <summary>
@@ -802,12 +729,12 @@ namespace BasicPrimitiveBuddy
 		/// <param name="fRadius">radius of the desired circle</param>
 		/// <param name="myColor">color of the circle to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void Circle(Vector2 vPosition, float fRadius, Color myColor, SpriteBatch mySpriteBatch)
+		public void Circle(Vector2 vPosition, float fRadius, Color myColor)
 		{
 			Position = vPosition;
 			Colour = myColor;
 			CreateCircle(fRadius, 20);
-			RenderLinePrimitive(mySpriteBatch);
+			RenderLinePrimitive(m_SpriteBatch);
 		}
 
 		/// <summary>
@@ -817,11 +744,11 @@ namespace BasicPrimitiveBuddy
 		/// <param name="vEnd">end point</param>
 		/// <param name="myColor">color of the line to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void Line(Vector2 vStart, Vector2 vEnd, Color myColor, SpriteBatch mySpriteBatch)
+		public void Line(Vector2 vStart, Vector2 vEnd, Color myColor)
 		{
 			Colour = myColor;
 			CreateLine(vStart, vEnd);
-			RenderLinePrimitive(mySpriteBatch);
+			RenderLinePrimitive(m_SpriteBatch);
 		}
 
 		/// <summary>
@@ -831,26 +758,40 @@ namespace BasicPrimitiveBuddy
 		/// <param name="vLowerRight">end point</param>
 		/// <param name="myColor">color of the line to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void AxisAlignedBox(Vector2 vUpperLeft, Vector2 vLowerRight, Color myColor, SpriteBatch mySpriteBatch)
+		public void AxisAlignedBox(Vector2 vUpperLeft, Vector2 vLowerRight, Color myColor)
 		{
 			Colour = myColor;
 			CreateSquare(vUpperLeft, vLowerRight);
-			RenderLinePrimitive(mySpriteBatch);
+			RenderLinePrimitive(m_SpriteBatch);
 		}
 
 		/// <summary>
 		/// Draw a stupid rectanlge.
 		/// This is the easiest way to draw a rectangle
 		/// </summary>
-		/// <param name="myRect">the rectangle to draw</param>
+		/// <param name="vUpperLeft">start point</param>
+		/// <param name="vLowerRight">end point</param>
+		/// <param name="fScale">the scale to draw the rectangle</param>
 		/// <param name="myColor">the color to use to draw the rectangle</param>
-		/// <param name="mySpriteBatch">My sprite batch.</param>
-		public void Rectangle(Rectangle myRect, Color myColor, SpriteBatch mySpriteBatch)
+		public void Rectangle(Vector2 vUpperLeft, Vector2 vLowerRight, float fRotation, float fScale, Color myColor)
 		{
 			Colour = myColor;
-			CreateSquare(new Vector2(myRect.Left, myRect.Top), 
-			             new Vector2(myRect.Right, myRect.Bottom));
-			RenderLinePrimitive(mySpriteBatch);
+			CreateSquare(vUpperLeft, vLowerRight);
+			Rotate(fRotation, vUpperLeft); //this prolly dont work
+			RenderLinePrimitive(m_SpriteBatch);
+		}
+
+		/// <summary>
+		/// draw a pie shape
+		/// </summary>
+		/// <param name="Position">location to draw the pie</param>
+		/// <param name="iRadius">the radius of the pie</param>
+		/// <param name="fStartAngle">the angle to start the pie</param>
+		/// <param name="fSweepAngle">the sweep angle of the pie</param>
+		/// <param name="rColor">color dat pie</param>
+		public void DrawPie(Vector2 Position, int iRadius, float fStartAngle, float fSweepAngle, Color rColor)
+		{
+			//TODO: draw a pie shape.
 		}
 
 		#endregion // Public Methods

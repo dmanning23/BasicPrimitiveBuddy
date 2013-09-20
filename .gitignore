@@ -37,6 +37,7 @@ x64/
 *.vssscc
 .builds
 *.userprefs
+*.user
 
 # Visual C++ cache files
 ipch/
