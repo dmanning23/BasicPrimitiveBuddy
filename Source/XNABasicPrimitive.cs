@@ -766,6 +766,18 @@ namespace BasicPrimitiveBuddy
 		}
 
 		/// <summary>
+		/// draw a quick box
+		/// </summary>
+		/// <param name="rect">the rectangle to draw</param>
+		/// <param name="myColor">color of the line to draw</param>
+		public void Rectangle(Rectangle rect, Color myColor)
+		{
+			AxisAlignedBox(new Vector2(rect.Left, rect.Top),
+			               new Vector2(rect.Left + rect.Width, rect.Top + rect.Height),
+			               myColor);
+		}
+
+		/// <summary>
 		/// Draw a stupid rectanlge.
 		/// This is the easiest way to draw a rectangle
 		/// </summary>

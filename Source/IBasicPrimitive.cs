@@ -44,6 +44,13 @@ namespace BasicPrimitiveBuddy
 		void AxisAlignedBox(Vector2 vUpperLeft, Vector2 vLowerRight, Color myColor);
 
 		/// <summary>
+		/// draw a quick box
+		/// </summary>
+		/// <param name="rect">the rectangle to draw</param>
+		/// <param name="myColor">color of the line to draw</param>
+		void Rectangle(Rectangle rect, Color myColor);
+
+		/// <summary>
 		/// Draw a stupid rectanlge.
 		/// This is the easiest way to draw a rectangle
 		/// </summary>
