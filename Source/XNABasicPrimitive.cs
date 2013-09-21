@@ -76,6 +76,7 @@ namespace BasicPrimitiveBuddy
 			// Create the pixel texture.
 			m_Pixel = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_Pixel.SetData<Color>(new Color[] { Color.White });
+			Thickness = 1.0f;
 		}
 
 		#endregion // Initialization
