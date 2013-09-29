@@ -76,6 +76,8 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -95,8 +97,11 @@
     <Compile Include="..\Source\IBasicPrimitive.cs">
       <Link>IBasicPrimitive.cs</Link>
     </Compile>
-    <Compile Include="..\Source\XNA\BasicPrimitive.cs">
-      <Link>BasicPrimitive.cs</Link>
+    <Compile Include="..\Source\WinFormBasicPrimitive.cs">
+      <Link>WinFormBasicPrimitive.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\XNABasicPrimitive.cs">
+      <Link>XNABasicPrimitive.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
