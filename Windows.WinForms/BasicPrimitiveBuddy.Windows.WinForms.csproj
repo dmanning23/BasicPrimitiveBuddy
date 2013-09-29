@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Source\GDI\BasicPrimitive.cs">
-      <Link>BasicPrimitive.cs</Link>
-    </Compile>
     <Compile Include="..\Source\IBasicPrimitive.cs">
       <Link>IBasicPrimitive.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\WinFormBasicPrimitive.cs">
+      <Link>WinFormBasicPrimitive.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
