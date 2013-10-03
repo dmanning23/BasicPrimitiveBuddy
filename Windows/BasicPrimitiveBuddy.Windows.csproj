@@ -50,6 +50,9 @@
     <Compile Include="..\Source\XNABasicPrimitive.cs">
       <Link>XNABasicPrimitive.cs</Link>
     </Compile>
+    <Compile Include="..\Source\TestBasicPrimitive.cs">
+      <Link>TestBasicPrimitive.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
