@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace BasicPrimitiveBuddy
 {
@@ -16,7 +17,7 @@ namespace BasicPrimitiveBuddy
 		/// <summary>
 		/// the form that this dude will render to
 		/// </summary>
-		public Form m_Form;
+		public BufferedGraphics DoubleBuffer { get; set; }
 
 		#endregion //Members
 
@@ -26,9 +27,8 @@ namespace BasicPrimitiveBuddy
 		/// Creates a new primitive object.
 		/// </summary>
 		/// <param name="_graphicsDevice">The graphics device object to use.</param>
-		public WinFormBasicPrimitive(Form form)
+		public WinFormBasicPrimitive()
 		{
-			m_Form = form;
 		}
 
 		#endregion // Initialization
@@ -43,14 +43,14 @@ namespace BasicPrimitiveBuddy
 		public void Point(Vector2 Position, Microsoft.Xna.Framework.Color rColor)
 		{
 			//Get teh grpahics object
-			Graphics myGraphics = m_Form.CreateGraphics();
+			Debug.Assert(null != DoubleBuffer);
 
 			//get a brush of the correct color
 			System.Drawing.Color myColor = System.Drawing.Color.FromArgb(rColor.A, rColor.R, rColor.G, rColor.B);
 			Brush myBrush = new SolidBrush(myColor);
 
 			//draw an ellipse
-			myGraphics.FillEllipse(myBrush, Position.X - 2, Position.Y - 2, 5.0f, 5.0f);
+			DoubleBuffer.Graphics.FillEllipse(myBrush, Position.X - 2, Position.Y - 2, 5.0f, 5.0f);
 		}
 
 		/// <summary>
@@ -62,13 +62,17 @@ namespace BasicPrimitiveBuddy
 		public void Circle(Vector2 Position, float iRadius, Microsoft.Xna.Framework.Color rColor)
 		{
 			//Get the graphics object
-			Graphics myGraphics = m_Form.CreateGraphics();
+			Debug.Assert(null != DoubleBuffer);
+
+			//set the transform
+			DoubleBuffer.Graphics.Transform = new System.Drawing.Drawing2D.Matrix();
+			Debug.Assert(DoubleBuffer.Graphics.Transform.IsIdentity);
 
 			//get a pen of the correct color
 			System.Drawing.Color myColor = System.Drawing.Color.FromArgb(rColor.A, rColor.R, rColor.G, rColor.B);
 			Pen myPen = new Pen(myColor);
 
-			myGraphics.DrawEllipse(myPen, (Position.X - iRadius), (Position.Y - iRadius), (iRadius * 2), (iRadius * 2));
+			DoubleBuffer.Graphics.DrawEllipse(myPen, (Position.X - iRadius), (Position.Y - iRadius), (iRadius * 2), (iRadius * 2));
 		}
 
 		/// <summary>
@@ -80,14 +84,18 @@ namespace BasicPrimitiveBuddy
 		public void Line(Vector2 start, Vector2 end, Microsoft.Xna.Framework.Color myColor)
 		{
 			//Get the graphics object
-			Graphics myGraphics = m_Form.CreateGraphics();
+			Debug.Assert(null != DoubleBuffer);
+
+			//set the transform
+			DoubleBuffer.Graphics.Transform = new System.Drawing.Drawing2D.Matrix();
+			Debug.Assert(DoubleBuffer.Graphics.Transform.IsIdentity);
 
 			//get a pen of the correct color
 			System.Drawing.Color gdiColor = System.Drawing.Color.FromArgb(myColor.A, myColor.R, myColor.G, myColor.B);
 			Pen myPen = new Pen(gdiColor);
 
 			//draw the 4 lines for the rectangle
-			myGraphics.DrawLine(myPen, start.X, start.Y, end.X, end.Y);
+			DoubleBuffer.Graphics.DrawLine(myPen, start.X, start.Y, end.X, end.Y);
 		}
 
 		/// <summary>
@@ -124,7 +132,11 @@ namespace BasicPrimitiveBuddy
 		public void Rectangle(Vector2 vUpperLeft, Vector2 vLowerRight, float fRotation, float fScale, Microsoft.Xna.Framework.Color myColor)
 		{
 			//Get the graphics object
-			Graphics myGraphics = m_Form.CreateGraphics();
+			Debug.Assert(null != DoubleBuffer);
+
+			//set the transform
+			DoubleBuffer.Graphics.Transform = new System.Drawing.Drawing2D.Matrix();
+			Debug.Assert(DoubleBuffer.Graphics.Transform.IsIdentity);
 
 			//setup the scale matrix
 			System.Drawing.Drawing2D.Matrix ScaleMatrix = new System.Drawing.Drawing2D.Matrix();
@@ -146,17 +158,17 @@ namespace BasicPrimitiveBuddy
 			TranslationMatrix.Multiply(ScaleMatrix);
 			TranslationMatrix.Multiply(OriginMatrix);
 
-			myGraphics.Transform = TranslationMatrix;
+			DoubleBuffer.Graphics.Transform = TranslationMatrix;
 
 			//get a pen of the correct color
 			System.Drawing.Color gdiColor = System.Drawing.Color.FromArgb(myColor.A, myColor.R, myColor.G, myColor.B);
 			Pen myPen = new Pen(gdiColor);
 
 			//draw the 4 lines for the rectangle
-			myGraphics.DrawLine(myPen, vUpperLeft.X, vUpperLeft.Y, vLowerRight.X, vUpperLeft.Y);
-			myGraphics.DrawLine(myPen, vLowerRight.X, vUpperLeft.Y, vLowerRight.X, vLowerRight.Y);
-			myGraphics.DrawLine(myPen, vLowerRight.X, vLowerRight.Y, vUpperLeft.X, vLowerRight.Y);
-			myGraphics.DrawLine(myPen, vUpperLeft.X, vLowerRight.Y, vUpperLeft.X, vUpperLeft.Y);
+			DoubleBuffer.Graphics.DrawLine(myPen, vUpperLeft.X, vUpperLeft.Y, vLowerRight.X, vUpperLeft.Y);
+			DoubleBuffer.Graphics.DrawLine(myPen, vLowerRight.X, vUpperLeft.Y, vLowerRight.X, vLowerRight.Y);
+			DoubleBuffer.Graphics.DrawLine(myPen, vLowerRight.X, vLowerRight.Y, vUpperLeft.X, vLowerRight.Y);
+			DoubleBuffer.Graphics.DrawLine(myPen, vUpperLeft.X, vLowerRight.Y, vUpperLeft.X, vUpperLeft.Y);
 		}
 
 		/// <summary>
@@ -175,13 +187,17 @@ namespace BasicPrimitiveBuddy
 			Microsoft.Xna.Framework.Color rColor)
 		{
 			//Get the graphics object
-			Graphics myGraphics = m_Form.CreateGraphics();
+			Debug.Assert(null != DoubleBuffer);
+
+			//set the transform
+			DoubleBuffer.Graphics.Transform = new System.Drawing.Drawing2D.Matrix();
+			Debug.Assert(DoubleBuffer.Graphics.Transform.IsIdentity);
 
 			//get a pen of the correct color
 			System.Drawing.Color myColor = System.Drawing.Color.FromArgb(rColor.A, rColor.R, rColor.G, rColor.B);
 			Pen myPen = new Pen(myColor);
 
-			myGraphics.DrawPie(myPen, (Position.X - iRadius), (Position.Y - iRadius), (iRadius * 2), (iRadius * 2),
+			DoubleBuffer.Graphics.DrawPie(myPen, (Position.X - iRadius), (Position.Y - iRadius), (iRadius * 2), (iRadius * 2),
 				MathHelper.ToDegrees(fStartAngle),
 				MathHelper.ToDegrees(fSweepAngle));
 		}
