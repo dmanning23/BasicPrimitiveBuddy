@@ -802,7 +802,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="fStartAngle">the angle to start the pie</param>
 		/// <param name="fSweepAngle">the sweep angle of the pie</param>
 		/// <param name="rColor">color dat pie</param>
-		public void DrawPie(Vector2 Position, int iRadius, float fStartAngle, float fSweepAngle, Color rColor)
+		public void Pie(Vector2 Position, int iRadius, float fStartAngle, float fSweepAngle, Color rColor)
 		{
 			//TODO: draw a pie shape.
 		}

@@ -68,7 +68,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="fStartAngle">the angle to start the pie</param>
 		/// <param name="fSweepAngle">the sweep angle of the pie</param>
 		/// <param name="rColor">color dat pie</param>
-		void DrawPie(
+		void Pie(
 			Vector2 Position,
 			int iRadius,
 			float fStartAngle,
