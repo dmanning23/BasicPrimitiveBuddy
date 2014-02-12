@@ -79,6 +79,16 @@ namespace BasicPrimitiveBuddy
 			Thickness = 1.0f;
 		}
 
+		/// <summary>
+		/// get ready to darw a new primitive
+		/// </summary>
+		private void Clear()
+		{
+			m_Color = Color.White;
+			m_vPosition = Vector2.Zero;
+			m_VectorList.Clear();
+		}
+
 		#endregion // Initialization
 
 		#region Creation Methods
@@ -717,6 +727,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
 		public void Point(Vector2 vPosition, Color myColor)
 		{
+			Clear();
 			Position = vPosition;
 			Colour = myColor;
 			CreateCircle(1.0f, 20);
@@ -732,6 +743,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
 		public void Circle(Vector2 vPosition, float fRadius, Color myColor)
 		{
+			Clear();
 			Position = vPosition;
 			Colour = myColor;
 			CreateCircle(fRadius, 20);
@@ -747,6 +759,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
 		public void Line(Vector2 vStart, Vector2 vEnd, Color myColor)
 		{
+			Clear();
 			Colour = myColor;
 			CreateLine(vStart, vEnd);
 			RenderLinePrimitive(m_SpriteBatch);
@@ -761,6 +774,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
 		public void AxisAlignedBox(Vector2 vUpperLeft, Vector2 vLowerRight, Color myColor)
 		{
+			Clear();
 			Colour = myColor;
 			CreateSquare(vUpperLeft, vLowerRight);
 			RenderLinePrimitive(m_SpriteBatch);
@@ -773,6 +787,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="myColor">color of the line to draw</param>
 		public void Rectangle(Rectangle rect, Color myColor)
 		{
+			Clear();
 			AxisAlignedBox(new Vector2(rect.Left, rect.Top),
 			               new Vector2(rect.Left + rect.Width, rect.Top + rect.Height),
 			               myColor);
@@ -788,6 +803,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="myColor">the color to use to draw the rectangle</param>
 		public void Rectangle(Vector2 vUpperLeft, Vector2 vLowerRight, float fRotation, float fScale, Color myColor)
 		{
+			Clear();
 			Colour = myColor;
 			CreateSquare(vUpperLeft, vLowerRight);
 			Rotate(fRotation, vUpperLeft); //this prolly dont work
