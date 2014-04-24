@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Microsoft.Xna.Framework;
-using System.Drawing;
+﻿using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace BasicPrimitiveBuddy
 {
