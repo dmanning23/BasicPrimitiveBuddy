@@ -72,6 +72,11 @@ namespace BasicPrimitiveBuddy
 			float fSweepAngle,
 			Microsoft.Xna.Framework.Color rColor) {}
 
+		/// <summary>
+		/// Get/Set the thickness of the shape's edge.
+		/// </summary>
+		public float Thickness { get; set; }
+
 		#endregion // Public Methods
 	}
 }

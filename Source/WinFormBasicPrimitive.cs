@@ -16,6 +16,11 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		public BufferedGraphics DoubleBuffer { get; set; }
 
+		/// <summary>
+		/// Get/Set the thickness of the shape's edge.
+		/// </summary>
+		public float Thickness { get; set; }
+
 		#endregion //Members
 
 		#region Initialization
