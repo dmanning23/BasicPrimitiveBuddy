@@ -61,6 +61,8 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		public float Thickness { get; set; }
 
+		public int NumCircleSegments { get; set; }
+
 		#endregion // Properties
 
 		#region Initialization
@@ -71,6 +73,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_graphicsDevice">The graphics device object to use.</param>
 		public XNABasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
 		{
+			NumCircleSegments = 20;
 			m_SpriteBatch = spritebatch;
 
 			// Create the pixel texture.
@@ -730,7 +733,7 @@ namespace BasicPrimitiveBuddy
 			Clear();
 			Position = vPosition;
 			Colour = myColor;
-			CreateCircle(1.0f, 20);
+			CreateCircle(1.0f, NumCircleSegments);
 			RenderLinePrimitive(m_SpriteBatch);
 		}
 
@@ -746,7 +749,7 @@ namespace BasicPrimitiveBuddy
 			Clear();
 			Position = vPosition;
 			Colour = myColor;
-			CreateCircle(fRadius, 20);
+			CreateCircle(fRadius, NumCircleSegments);
 			RenderLinePrimitive(m_SpriteBatch);
 		}
 
