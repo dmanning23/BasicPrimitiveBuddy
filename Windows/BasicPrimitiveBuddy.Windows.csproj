@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0FAA1286-7BFA-4765-8B51-62E438CB121D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>BasicPrimitiveBuddy.Windows</RootNamespace>
