@@ -61,15 +61,15 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Source\XnaBasicPrimitive.cs">
+      <Link>XnaBasicPrimitive.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\Source\IBasicPrimitive.cs">
       <Link>IBasicPrimitive.cs</Link>
     </Compile>
     <Compile Include="..\Source\WinFormBasicPrimitive.cs">
       <Link>WinFormBasicPrimitive.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\XNABasicPrimitive.cs">
-      <Link>XNABasicPrimitive.cs</Link>
     </Compile>
     <Compile Include="..\Source\TestBasicPrimitive.cs">
       <Link>TestBasicPrimitive.cs</Link>

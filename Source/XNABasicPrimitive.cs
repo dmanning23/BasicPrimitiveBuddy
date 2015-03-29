@@ -8,47 +8,46 @@ namespace BasicPrimitiveBuddy
 	/// <summary>
 	/// Render a simple 2D shape.
 	/// </summary>
-	public class XNABasicPrimitive : IBasicPrimitive
+	public class XnaBasicPrimitive : IBasicPrimitive
 	{
-		#region Members
+		#region Fields
 
-		/// <summary>The color of the primitive object.</summary>
-		private Color m_Color = Color.White;
-
-		/// <summary>The position of the primitive object.</summary>
-		private Vector2 m_vPosition = Vector2.Zero;
-
-		/// <summary>1x1 pixel that creates the shape.</summary>
-		private Texture2D m_Pixel = null;
-
-		/// <summary>List of vectors.</summary>
-		private List<Vector2> m_VectorList = new List<Vector2>();
+		/// <summary>
+		/// The position of the primitive object.
+		/// </summary>
+		private Vector2 _position = Vector2.Zero;
 
 		/// <summary>
 		/// The sprite batch this dude gonna render with.
 		/// </summary>
-		private SpriteBatch m_SpriteBatch;
+		private readonly SpriteBatch _spriteBatch;
 
-		#endregion //Members
+		#endregion //Fields
 
 		#region Properties
 
 		/// <summary>
+		/// Blank 1x1 pixel that creates the shape.
+		/// </summary>
+		public Texture2D Texture { get; set; }
+
+		/// <summary>
 		/// Get/Set the colour of the primitive object.
 		/// </summary>
-		public Color Colour
-		{
-			get { return m_Color; }
-			set { m_Color = value; }
-		}
+		private Color Color { get; set; }
+
+		/// <summary>
+		/// List of vectors.
+		/// </summary>
+		private List<Vector2> VectorList { get; set; }
 
 		/// <summary>
 		/// Get/Set the position of the primitive object.
 		/// </summary>
 		public Vector2 Position
 		{
-			get { return m_vPosition; }
-			set { m_vPosition = value; }
+			get { return _position; }
+			set { _position = value; }
 		}
 
 		/// <summary>
@@ -70,15 +69,18 @@ namespace BasicPrimitiveBuddy
 		/// <summary>
 		/// Creates a new primitive object.
 		/// </summary>
-		/// <param name="_graphicsDevice">The graphics device object to use.</param>
-		public XNABasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
+		/// <param name="graphicsDevice">The graphics device object to use.</param>
+		/// <param name="spritebatch">The spritebatch object to use.</param>
+		public XnaBasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
 		{
 			NumCircleSegments = 20;
-			m_SpriteBatch = spritebatch;
+			_spriteBatch = spritebatch;
+			VectorList = new List<Vector2>();
+			Color = Color.White;
 
 			// Create the pixel texture.
-			m_Pixel = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-			m_Pixel.SetData<Color>(new Color[] { Color.White });
+			Texture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			Texture.SetData<Color>(new Color[] { Color.White });
 			Thickness = 1.0f;
 		}
 
@@ -87,9 +89,9 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		private void Clear()
 		{
-			m_Color = Color.White;
-			m_vPosition = Vector2.Zero;
-			m_VectorList.Clear();
+			Color = Color.White;
+			Position = Vector2.Zero;
+			VectorList.Clear();
 		}
 
 		#endregion // Initialization
@@ -99,62 +101,62 @@ namespace BasicPrimitiveBuddy
 		/// <summary> 
 		/// Create a line primitive.
 		/// </summary>
-		/// <param name="_vStart">Start of the line, in pixels.</param>
-		/// <param name="_vEnd">End of the line, in pixels.</param>
-		private void CreateLine(Vector2 _vStart, Vector2 _vEnd)
+		/// <param name="start">Start of the line, in pixels.</param>
+		/// <param name="end">End of the line, in pixels.</param>
+		private void CreateLine(Vector2 start, Vector2 end)
 		{
-			m_VectorList.Clear();
-			m_VectorList.Add(_vStart);
-			m_VectorList.Add(_vEnd);
+			VectorList.Clear();
+			VectorList.Add(start);
+			VectorList.Add(end);
 		}
 
 		/// <summary>
 		/// Create a triangle primitive.
 		/// </summary>
-		/// <param name="_vPoint1">Fist point, in pixels.</param>
-		/// <param name="_vPoint2">Second point, in pixels.</param>
-		/// <param name="_vPoint3">Third point, in pixels.</param>
-		private void CreateTriangle(Vector2 _vPoint1, Vector2 _vPoint2, Vector2 _vPoint3)
+		/// <param name="p1">Fist point, in pixels.</param>
+		/// <param name="p2">Second point, in pixels.</param>
+		/// <param name="p3">Third point, in pixels.</param>
+		private void CreateTriangle(Vector2 p1, Vector2 p2, Vector2 p3)
 		{
-			m_VectorList.Clear();
-			m_VectorList.Add(_vPoint1);
-			m_VectorList.Add(_vPoint2);
-			m_VectorList.Add(_vPoint3);
-			m_VectorList.Add(_vPoint1);
+			VectorList.Clear();
+			VectorList.Add(p1);
+			VectorList.Add(p2);
+			VectorList.Add(p3);
+			VectorList.Add(p1);
 		}
 
 		/// <summary>
 		/// Create a square primitive.
 		/// </summary>
-		/// <param name="_vTopLeft">Top left hand corner of the square.</param>
-		/// <param name="_vBottomRight">Bottom right hand corner of the square.</param>
-		private void CreateSquare(Vector2 _vTopLeft, Vector2 _vBottomRight)
+		/// <param name="topLeft">Top left hand corner of the square.</param>
+		/// <param name="bottomRight">Bottom right hand corner of the square.</param>
+		private void CreateSquare(Vector2 topLeft, Vector2 bottomRight)
 		{
-			m_VectorList.Clear();
-			m_VectorList.Add(_vTopLeft);
-			m_VectorList.Add(new Vector2(_vTopLeft.X, _vBottomRight.Y));
-			m_VectorList.Add(_vBottomRight);
-			m_VectorList.Add(new Vector2(_vBottomRight.X, _vTopLeft.Y));
-			m_VectorList.Add(_vTopLeft);
+			VectorList.Clear();
+			VectorList.Add(topLeft);
+			VectorList.Add(new Vector2(topLeft.X, bottomRight.Y));
+			VectorList.Add(bottomRight);
+			VectorList.Add(new Vector2(bottomRight.X, topLeft.Y));
+			VectorList.Add(topLeft);
 		}
 
 		/// <summary>
 		/// Creates a circle starting from (0, 0).
 		/// </summary>
-		/// <param name="_fRadius">The radius (half the width) of the circle.</param>
-		/// <param name="_nSides">The number of sides on the circle. (64 is average).</param>
-		private void CreateCircle(float _fRadius, int _nSides)
+		/// <param name="radius">The radius (half the width) of the circle.</param>
+		/// <param name="sides">The number of sides on the circle. (64 is average).</param>
+		private void CreateCircle(float radius, int sides)
 		{
-			m_VectorList.Clear();
+			VectorList.Clear();
 
 			float fMax = (float)MathHelper.TwoPi;
-			float fStep = fMax / (float)_nSides;
+			float fStep = fMax / (float)sides;
 
 			// Create the full circle.
 			for (float fTheta = fMax; fTheta >= -1; fTheta -= fStep)
 			{
-				m_VectorList.Add(new Vector2(_fRadius * (float)Math.Cos((double)fTheta),
-											 _fRadius * (float)Math.Sin((double)fTheta)));
+				VectorList.Add(new Vector2(radius * (float)Math.Cos((double)fTheta),
+											 radius * (float)Math.Sin((double)fTheta)));
 			}
 		}
 
@@ -162,22 +164,22 @@ namespace BasicPrimitiveBuddy
 		/// Creates an ellipse starting from (0, 0) with the given width and height.
 		/// Vectors are generated using the parametric equation of an ellipse.
 		/// </summary>
-		/// <param name="_fSemiMajorAxis">The width of the ellipse at its center.</param>
-		/// <param name="_fSemiMinorAxis">The height of the ellipse at its center.</param>
-		/// <param name="_nSides">The number of sides on the ellipse. (64 is average).</param>
-		private void CreateEllipse(float _fSemiMajorAxis, float _fSemiMinorAxis, int _nSides)
+		/// <param name="semiMajorAxis">The width of the ellipse at its center.</param>
+		/// <param name="semiMinorAxis">The height of the ellipse at its center.</param>
+		/// <param name="sides">The number of sides on the ellipse. (64 is average).</param>
+		private void CreateEllipse(float semiMajorAxis, float semiMinorAxis, int sides)
 		{
-			m_VectorList.Clear();
+			VectorList.Clear();
 
 			// Local variables.
 			float fMax = (float)MathHelper.TwoPi;
-			float fStep = fMax / (float)_nSides;
+			float fStep = fMax / (float)sides;
 
 			// Create full ellipse.
 			for (float fTheta = fMax; fTheta >= -1; fTheta -= fStep)
 			{
-				m_VectorList.Add(new Vector2((float)(_fSemiMajorAxis * Math.Cos(fTheta)),
-											 (float)(_fSemiMinorAxis * Math.Sin(fTheta))));
+				VectorList.Add(new Vector2((float)(semiMajorAxis * Math.Cos(fTheta)),
+											 (float)(semiMinorAxis * Math.Sin(fTheta))));
 			}
 		}
 
@@ -189,10 +191,10 @@ namespace BasicPrimitiveBuddy
 		/// Render points of the primitive.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		private void RenderPointPrimitive(SpriteBatch _spriteBatch)
+		private void RenderPointPrimitive()
 		{
 			// Validate.
-			if (m_VectorList.Count <= 0)
+			if (VectorList.Count <= 0)
 				return;
 
 			// Local variables.
@@ -200,21 +202,21 @@ namespace BasicPrimitiveBuddy
 			float fAngle = 0f;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the angle between the two vectors.
 				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
 										   (double)(vPosition2.X - vPosition1.X));
 
 				// Stretch the pixel between the two vectors.
-				_spriteBatch.Draw(m_Pixel,
-								  m_vPosition + m_VectorList[i],
+				_spriteBatch.Draw(Texture,
+								  Position + VectorList[i],
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
 								  Thickness,
@@ -229,10 +231,10 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		private void RenderPointPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderPointPrimitive(float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
-			if (m_VectorList.Count <= 0)
+			if (VectorList.Count <= 0)
 				return;
 
 			// Rotate object based on pivot.
@@ -243,21 +245,21 @@ namespace BasicPrimitiveBuddy
 			float fAngle = 0f;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the angle between the two vectors.
 				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
 										   (double)(vPosition2.X - vPosition1.X));
 
 				// Stretch the pixel between the two vectors.
-				_spriteBatch.Draw(m_Pixel,
-								  m_vPosition + m_VectorList[i],
+				_spriteBatch.Draw(Texture,
+								  Position + VectorList[i],
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
 								  Thickness,
@@ -270,10 +272,10 @@ namespace BasicPrimitiveBuddy
 		/// Render the lines of the primitive.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		private void RenderLinePrimitive(SpriteBatch _spriteBatch)
+		private void RenderLinePrimitive()
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Local variables.
@@ -281,11 +283,11 @@ namespace BasicPrimitiveBuddy
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -295,10 +297,10 @@ namespace BasicPrimitiveBuddy
 										   (double)(vPosition2.X - vPosition1.X));
 
 				// Stretch the pixel between the two vectors.
-				_spriteBatch.Draw(m_Pixel,
-								  m_vPosition + vPosition1,
+				_spriteBatch.Draw(Texture,
+								  Position + vPosition1,
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0, 0.5f),
 								  new Vector2(fDistance, Thickness),
@@ -313,10 +315,10 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		private void RenderLinePrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderLinePrimitive(float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Rotate object based on pivot.
@@ -327,11 +329,11 @@ namespace BasicPrimitiveBuddy
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -341,10 +343,10 @@ namespace BasicPrimitiveBuddy
 										   (double)(vPosition2.X - vPosition1.X));
 
 				// Stretch the pixel between the two vectors.
-				_spriteBatch.Draw(m_Pixel,
-								  m_vPosition + vPosition1,
+				_spriteBatch.Draw(Texture,
+								  Position + vPosition1,
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0, 0.5f),
 								  new Vector2(fDistance, Thickness),
@@ -357,10 +359,10 @@ namespace BasicPrimitiveBuddy
 		/// Render primitive by using a square algorithm.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		private void RenderSquarePrimitive(SpriteBatch _spriteBatch)
+		private void RenderSquarePrimitive()
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Local variables.
@@ -369,11 +371,11 @@ namespace BasicPrimitiveBuddy
 			int nCount = 0;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -396,10 +398,10 @@ namespace BasicPrimitiveBuddy
 					vPosition1 += vLength;
 
 					// Stretch the pixel between the two vectors.
-					_spriteBatch.Draw(m_Pixel,
-									  m_vPosition + vPosition1,
+					_spriteBatch.Draw(Texture,
+									  Position + vPosition1,
 									  null,
-									  m_Color,
+									  Color,
 									  0,
 									  Vector2.Zero,
 									  Thickness,
@@ -415,10 +417,10 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		private void RenderSquarePrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderSquarePrimitive(float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Rotate object based on pivot.
@@ -430,11 +432,11 @@ namespace BasicPrimitiveBuddy
 			int nCount = 0;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -457,10 +459,10 @@ namespace BasicPrimitiveBuddy
 					vPosition1 += vLength;
 
 					// Stretch the pixel between the two vectors.
-					_spriteBatch.Draw(m_Pixel,
-									  m_vPosition + vPosition1,
+					_spriteBatch.Draw(Texture,
+									  Position + vPosition1,
 									  null,
-									  m_Color,
+									  Color,
 									  0,
 									  Vector2.Zero,
 									  Thickness,
@@ -474,10 +476,10 @@ namespace BasicPrimitiveBuddy
 		/// Render primitive by using a round algorithm.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		private void RenderRoundPrimitive(SpriteBatch _spriteBatch)
+		private void RenderRoundPrimitive()
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Local variables.
@@ -486,11 +488,11 @@ namespace BasicPrimitiveBuddy
 			int nCount = 0;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -513,10 +515,10 @@ namespace BasicPrimitiveBuddy
 					vPosition1 += vLength;
 
 					// Stretch the pixel between the two vectors.
-					_spriteBatch.Draw(m_Pixel,
-									  m_vPosition + vPosition1 + 0.5f * (vPosition2 - vPosition1),
+					_spriteBatch.Draw(Texture,
+									  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
 									  null,
-									  m_Color,
+									  Color,
 									  fAngle,
 									  new Vector2(0.5f, 0.5f),
 									  new Vector2(fDistance, Thickness),
@@ -532,10 +534,10 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		private void RenderRoundPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderRoundPrimitive(float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Rotate object based on pivot.
@@ -547,11 +549,11 @@ namespace BasicPrimitiveBuddy
 			int nCount = 0;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -574,10 +576,10 @@ namespace BasicPrimitiveBuddy
 					vPosition1 += vLength;
 
 					// Stretch the pixel between the two vectors.
-					_spriteBatch.Draw(m_Pixel,
-									  m_vPosition + vPosition1 + 0.5f * (vPosition2 - vPosition1),
+					_spriteBatch.Draw(Texture,
+									  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
 									  null,
-									  m_Color,
+									  Color,
 									  fAngle,
 									  new Vector2(0.5f, 0.5f),
 									  new Vector2(fDistance, Thickness),
@@ -591,10 +593,10 @@ namespace BasicPrimitiveBuddy
 		/// Render primitive by using a point and line algorithm.
 		/// </summary>
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
-		private void RenderPolygonPrimitive(SpriteBatch _spriteBatch)
+		private void RenderPolygonPrimitive()
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Local variables.
@@ -602,12 +604,12 @@ namespace BasicPrimitiveBuddy
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
-				
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
+
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
 
@@ -616,10 +618,10 @@ namespace BasicPrimitiveBuddy
 										   (double)(vPosition2.X - vPosition1.X));
 
 				// Stretch the pixel between the two vectors.
-				_spriteBatch.Draw(m_Pixel,
+				_spriteBatch.Draw(Texture,
 								  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
 								  new Vector2(fDistance, Thickness),
@@ -627,10 +629,10 @@ namespace BasicPrimitiveBuddy
 								  Depth);
 
 				// Render the points of the polygon.
-				_spriteBatch.Draw(m_Pixel,
-								  m_vPosition + vPosition1,
+				_spriteBatch.Draw(Texture,
+								  Position + vPosition1,
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
 								  Thickness,
@@ -645,10 +647,10 @@ namespace BasicPrimitiveBuddy
 		/// <param name="_spriteBatch">The sprite batch to use to render the primitive object.</param>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		private void RenderPolygonPrimitive(SpriteBatch _spriteBatch, float _fAngle, Vector2 _vPivot)
+		private void RenderPolygonPrimitive(float _fAngle, Vector2 _vPivot)
 		{
 			// Validate.
-			if (m_VectorList.Count < 2)
+			if (VectorList.Count < 2)
 				return;
 
 			// Rotate object based on pivot.
@@ -659,11 +661,11 @@ namespace BasicPrimitiveBuddy
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
-			for (int i = m_VectorList.Count - 1; i >= 1; --i)
+			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = m_VectorList[i - 1];
-				vPosition2 = m_VectorList[i];
+				vPosition1 = VectorList[i - 1];
+				vPosition2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
 				fDistance = Vector2.Distance(vPosition1, vPosition2);
@@ -673,10 +675,10 @@ namespace BasicPrimitiveBuddy
 										   (double)(vPosition2.X - vPosition1.X));
 
 				// Stretch the pixel between the two vectors.
-				_spriteBatch.Draw(m_Pixel,
+				_spriteBatch.Draw(Texture,
 								  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
 								  new Vector2(fDistance, Thickness),
@@ -684,10 +686,10 @@ namespace BasicPrimitiveBuddy
 								  Depth);
 
 				// Render the points of the polygon.
-				_spriteBatch.Draw(m_Pixel,
-								  m_vPosition + vPosition1,
+				_spriteBatch.Draw(Texture,
+								  Position + vPosition1,
 								  null,
-								  m_Color,
+								  Color,
 								  fAngle,
 								  new Vector2(0.5f, 0.5f),
 								  Thickness,
@@ -708,17 +710,17 @@ namespace BasicPrimitiveBuddy
 		public void Rotate(float _fAngle, Vector2 _vPivot)
 		{
 			// Subtract pivot from all points.
-			for (int i = m_VectorList.Count - 1; i >= 0; --i)
-				m_VectorList[i] -= _vPivot;
+			for (int i = VectorList.Count - 1; i >= 0; --i)
+				VectorList[i] -= _vPivot;
 
 			// Rotate about the origin.
 			Matrix mat = Matrix.CreateRotationZ(_fAngle);
-			for (int i = m_VectorList.Count - 1; i >= 0; --i)
-				m_VectorList[i] = Vector2.Transform(m_VectorList[i], mat);
+			for (int i = VectorList.Count - 1; i >= 0; --i)
+				VectorList[i] = Vector2.Transform(VectorList[i], mat);
 
 			// Add pivot to all points.
-			for (int i = m_VectorList.Count - 1; i >= 0; --i)
-				m_VectorList[i] += _vPivot;
+			for (int i = VectorList.Count - 1; i >= 0; --i)
+				VectorList[i] += _vPivot;
 		}
 
 		/// <summary>
@@ -732,9 +734,9 @@ namespace BasicPrimitiveBuddy
 		{
 			Clear();
 			Position = vPosition;
-			Colour = myColor;
+			Color = myColor;
 			CreateCircle(1.0f, NumCircleSegments);
-			RenderLinePrimitive(m_SpriteBatch);
+			RenderLinePrimitive();
 		}
 
 		/// <summary>
@@ -748,9 +750,9 @@ namespace BasicPrimitiveBuddy
 		{
 			Clear();
 			Position = vPosition;
-			Colour = myColor;
+			Color = myColor;
 			CreateCircle(fRadius, NumCircleSegments);
-			RenderLinePrimitive(m_SpriteBatch);
+			RenderLinePrimitive();
 		}
 
 		/// <summary>
@@ -763,9 +765,9 @@ namespace BasicPrimitiveBuddy
 		public void Line(Vector2 vStart, Vector2 vEnd, Color myColor)
 		{
 			Clear();
-			Colour = myColor;
+			Color = myColor;
 			CreateLine(vStart, vEnd);
-			RenderLinePrimitive(m_SpriteBatch);
+			RenderLinePrimitive();
 		}
 
 		/// <summary>
@@ -778,9 +780,9 @@ namespace BasicPrimitiveBuddy
 		public void AxisAlignedBox(Vector2 vUpperLeft, Vector2 vLowerRight, Color myColor)
 		{
 			Clear();
-			Colour = myColor;
+			Color = myColor;
 			CreateSquare(vUpperLeft, vLowerRight);
-			RenderLinePrimitive(m_SpriteBatch);
+			RenderLinePrimitive();
 		}
 
 		/// <summary>
@@ -792,8 +794,8 @@ namespace BasicPrimitiveBuddy
 		{
 			Clear();
 			AxisAlignedBox(new Vector2(rect.Left, rect.Top),
-			               new Vector2(rect.Left + rect.Width, rect.Top + rect.Height),
-			               myColor);
+						   new Vector2(rect.Left + rect.Width, rect.Top + rect.Height),
+						   myColor);
 		}
 
 		/// <summary>
@@ -807,10 +809,10 @@ namespace BasicPrimitiveBuddy
 		public void Rectangle(Vector2 vUpperLeft, Vector2 vLowerRight, float fRotation, float fScale, Color myColor)
 		{
 			Clear();
-			Colour = myColor;
+			Color = myColor;
 			CreateSquare(vUpperLeft, vLowerRight);
 			Rotate(fRotation, vUpperLeft); //this prolly dont work
-			RenderLinePrimitive(m_SpriteBatch);
+			RenderLinePrimitive();
 		}
 
 		/// <summary>
@@ -821,7 +823,7 @@ namespace BasicPrimitiveBuddy
 		/// <param name="fStartAngle">the angle to start the pie</param>
 		/// <param name="fSweepAngle">the sweep angle of the pie</param>
 		/// <param name="rColor">color dat pie</param>
-		public void Pie(Vector2 Position, int iRadius, float fStartAngle, float fSweepAngle, Color rColor)
+		public void Pie(Vector2 position, int iRadius, float fStartAngle, float fSweepAngle, Color rColor)
 		{
 			//TODO: draw a pie shape.
 		}
