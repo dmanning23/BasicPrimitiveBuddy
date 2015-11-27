@@ -88,12 +88,6 @@
     <Compile Include="..\Source\IBasicPrimitive.cs">
       <Link>IBasicPrimitive.cs</Link>
     </Compile>
-    <Compile Include="..\Source\WinFormBasicPrimitive.cs">
-      <Link>WinFormBasicPrimitive.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\TestBasicPrimitive.cs">
-      <Link>TestBasicPrimitive.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -103,7 +97,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
