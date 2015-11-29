@@ -81,6 +81,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Source\WinFormBasicPrimitive.cs">
+      <Link>WinFormBasicPrimitive.cs</Link>
+    </Compile>
     <Compile Include="..\Source\XnaBasicPrimitive.cs">
       <Link>XnaBasicPrimitive.cs</Link>
     </Compile>
