@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>PrimitiveBuddy.WindowsGL</id>
+        <version>1.0.1</version>
+        <title>PrimitiveBuddy.WindowsGL</title>
+        <authors>dmanning23</authors>
+		<owners>dmanning23</owners>
+		<projectUrl>https://github.com/dmanning23/BasicPrimitiveBuddy</projectUrl>
+		<licenseUrl>https://github.com/dmanning23/BasicPrimitiveBuddy/blob/master/LICENSE.txt</licenseUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>MonoGame library for drawing primitive shapes</description>
+        <releaseNotes />
+        <copyright>Copyright 2016</copyright>
+        <tags>MonoGame WindowsGL</tags>
+        <dependencies>
+            <dependency id="MonoGame.Framework.WindowsGL" version="(3.5,)"/>
+		</dependencies>
+    </metadata>
+    <files>
+        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.WindowsGL\bin\Release\PrimitiveBuddy.WindowsGL.pdb" target="lib\PrimitiveBuddy.WindowsGL.pdb" />
+        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.WindowsGL\bin\Release\PrimitiveBuddy.WindowsGL.dll" target="lib\PrimitiveBuddy.WindowsGL.dll" />
+    </files>
+</package>

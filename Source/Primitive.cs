@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace BasicPrimitiveBuddy
+namespace PrimitiveBuddy
 {
 	/// <summary>
 	/// Render a simple 2D shape.
 	/// </summary>
-	public class XnaBasicPrimitive : IBasicPrimitive
+	public class Primitive : IPrimitive
 	{
 		#region Fields
 
@@ -71,7 +71,7 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		/// <param name="graphicsDevice">The graphics device object to use.</param>
 		/// <param name="spritebatch">The spritebatch object to use.</param>
-		public XnaBasicPrimitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
+		public Primitive(GraphicsDevice graphicsDevice, SpriteBatch spritebatch)
 		{
 			NumCircleSegments = 20;
 			_spriteBatch = spritebatch;
@@ -105,7 +105,6 @@ namespace BasicPrimitiveBuddy
 		/// <param name="end">End of the line, in pixels.</param>
 		private void CreateLine(Vector2 start, Vector2 end)
 		{
-			VectorList.Clear();
 			VectorList.Add(start);
 			VectorList.Add(end);
 		}
@@ -118,7 +117,6 @@ namespace BasicPrimitiveBuddy
 		/// <param name="p3">Third point, in pixels.</param>
 		private void CreateTriangle(Vector2 p1, Vector2 p2, Vector2 p3)
 		{
-			VectorList.Clear();
 			VectorList.Add(p1);
 			VectorList.Add(p2);
 			VectorList.Add(p3);
@@ -132,7 +130,6 @@ namespace BasicPrimitiveBuddy
 		/// <param name="bottomRight">Bottom right hand corner of the square.</param>
 		private void CreateSquare(Vector2 topLeft, Vector2 bottomRight)
 		{
-			VectorList.Clear();
 			VectorList.Add(topLeft);
 			VectorList.Add(new Vector2(topLeft.X, bottomRight.Y));
 			VectorList.Add(bottomRight);
@@ -147,16 +144,24 @@ namespace BasicPrimitiveBuddy
 		/// <param name="sides">The number of sides on the circle. (64 is average).</param>
 		private void CreateCircle(float radius, int sides)
 		{
-			VectorList.Clear();
+			CreateArc(radius, sides, 0, MathHelper.TwoPi);
+		}
 
-			float fMax = (float)MathHelper.TwoPi;
-			float fStep = fMax / (float)sides;
+		/// <summary>
+		/// Creates a circle starting from (0, 0).
+		/// </summary>
+		/// <param name="radius">The radius (half the width) of the circle.</param>
+		/// <param name="sides">The number of sides on the circle. (64 is average).</param>
+		private void CreateArc(float radius, int sides, float startAngle, float sweepAngle)
+		{
+			float delta = sweepAngle / MathHelper.TwoPi;
+			float fStep = sweepAngle / (delta * sides);
 
 			// Create the full circle.
-			for (float fTheta = fMax; fTheta >= -1; fTheta -= fStep)
+			for (float fTheta = startAngle; fTheta <= startAngle + sweepAngle; fTheta += fStep)
 			{
-				VectorList.Add(new Vector2(radius * (float)Math.Cos((double)fTheta),
-											 radius * (float)Math.Sin((double)fTheta)));
+				VectorList.Add(new Vector2(radius * (float)Math.Cos(fTheta),
+											 radius * (float)Math.Sin(fTheta)));
 			}
 		}
 
@@ -169,8 +174,6 @@ namespace BasicPrimitiveBuddy
 		/// <param name="sides">The number of sides on the ellipse. (64 is average).</param>
 		private void CreateEllipse(float semiMajorAxis, float semiMinorAxis, int sides)
 		{
-			VectorList.Clear();
-
 			// Local variables.
 			float fMax = (float)MathHelper.TwoPi;
 			float fStep = fMax / (float)sides;
@@ -198,19 +201,19 @@ namespace BasicPrimitiveBuddy
 				return;
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero;
 			float fAngle = 0f;
 
 			// Run through the list of vectors.
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Stretch the pixel between the two vectors.
 				_spriteBatch.Draw(Texture,
@@ -241,19 +244,19 @@ namespace BasicPrimitiveBuddy
 			Rotate(_fAngle, _vPivot);
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero;
 			float fAngle = 0f;
 
 			// Run through the list of vectors.
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Stretch the pixel between the two vectors.
 				_spriteBatch.Draw(Texture,
@@ -279,26 +282,26 @@ namespace BasicPrimitiveBuddy
 				return;
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Stretch the pixel between the two vectors.
 				_spriteBatch.Draw(Texture,
-								  Position + vPosition1,
+								  Position + position1,
 								  null,
 								  Color,
 								  fAngle,
@@ -325,26 +328,26 @@ namespace BasicPrimitiveBuddy
 			Rotate(_fAngle, _vPivot);
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Stretch the pixel between the two vectors.
 				_spriteBatch.Draw(Texture,
-								  Position + vPosition1,
+								  Position + position1,
 								  null,
 								  Color,
 								  fAngle,
@@ -366,7 +369,7 @@ namespace BasicPrimitiveBuddy
 				return;
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero, vLength = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero, vLength = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 			int nCount = 0;
 
@@ -374,18 +377,18 @@ namespace BasicPrimitiveBuddy
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Calculate length.
-				vLength = vPosition2 - vPosition1;
+				vLength = position2 - position1;
 				vLength.Normalize();
 
 				// Calculate count for roundness.
@@ -395,11 +398,11 @@ namespace BasicPrimitiveBuddy
 				while (nCount-- > 0)
 				{
 					// Increment position.
-					vPosition1 += vLength;
+					position1 += vLength;
 
 					// Stretch the pixel between the two vectors.
 					_spriteBatch.Draw(Texture,
-									  Position + vPosition1,
+									  Position + position1,
 									  null,
 									  Color,
 									  0,
@@ -427,7 +430,7 @@ namespace BasicPrimitiveBuddy
 			Rotate(_fAngle, _vPivot);
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero, vLength = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero, vLength = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 			int nCount = 0;
 
@@ -435,18 +438,18 @@ namespace BasicPrimitiveBuddy
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Calculate length.
-				vLength = vPosition2 - vPosition1;
+				vLength = position2 - position1;
 				vLength.Normalize();
 
 				// Calculate count for roundness.
@@ -456,11 +459,11 @@ namespace BasicPrimitiveBuddy
 				while (nCount-- > 0)
 				{
 					// Increment position.
-					vPosition1 += vLength;
+					position1 += vLength;
 
 					// Stretch the pixel between the two vectors.
 					_spriteBatch.Draw(Texture,
-									  Position + vPosition1,
+									  Position + position1,
 									  null,
 									  Color,
 									  0,
@@ -483,7 +486,7 @@ namespace BasicPrimitiveBuddy
 				return;
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero, vLength = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero, vLength = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 			int nCount = 0;
 
@@ -491,18 +494,18 @@ namespace BasicPrimitiveBuddy
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Calculate length.
-				vLength = vPosition2 - vPosition1;
+				vLength = position2 - position1;
 				vLength.Normalize();
 
 				// Calculate count for roundness.
@@ -512,11 +515,11 @@ namespace BasicPrimitiveBuddy
 				while (nCount-- > 0)
 				{
 					// Increment position.
-					vPosition1 += vLength;
+					position1 += vLength;
 
 					// Stretch the pixel between the two vectors.
 					_spriteBatch.Draw(Texture,
-									  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
+									  Position + position1 + 0.5f * (position2 - position1),
 									  null,
 									  Color,
 									  fAngle,
@@ -544,7 +547,7 @@ namespace BasicPrimitiveBuddy
 			Rotate(_fAngle, _vPivot);
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero, vLength = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero, vLength = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 			int nCount = 0;
 
@@ -552,18 +555,18 @@ namespace BasicPrimitiveBuddy
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Calculate length.
-				vLength = vPosition2 - vPosition1;
+				vLength = position2 - position1;
 				vLength.Normalize();
 
 				// Calculate count for roundness.
@@ -573,11 +576,11 @@ namespace BasicPrimitiveBuddy
 				while (nCount-- > 0)
 				{
 					// Increment position.
-					vPosition1 += vLength;
+					position1 += vLength;
 
 					// Stretch the pixel between the two vectors.
 					_spriteBatch.Draw(Texture,
-									  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
+									  Position + position1 + 0.5f * (position2 - position1),
 									  null,
 									  Color,
 									  fAngle,
@@ -600,26 +603,26 @@ namespace BasicPrimitiveBuddy
 				return;
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Stretch the pixel between the two vectors.
 				_spriteBatch.Draw(Texture,
-								  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
+								  Position + position1 + 0.5f * (position2 - position1),
 								  null,
 								  Color,
 								  fAngle,
@@ -630,7 +633,7 @@ namespace BasicPrimitiveBuddy
 
 				// Render the points of the polygon.
 				_spriteBatch.Draw(Texture,
-								  Position + vPosition1,
+								  Position + position1,
 								  null,
 								  Color,
 								  fAngle,
@@ -657,26 +660,26 @@ namespace BasicPrimitiveBuddy
 			Rotate(_fAngle, _vPivot);
 
 			// Local variables.
-			Vector2 vPosition1 = Vector2.Zero, vPosition2 = Vector2.Zero;
+			Vector2 position1 = Vector2.Zero, position2 = Vector2.Zero;
 			float fDistance = 0f, fAngle = 0f;
 
 			// Run through the list of vectors.
 			for (int i = VectorList.Count - 1; i >= 1; --i)
 			{
 				// Store positions.
-				vPosition1 = VectorList[i - 1];
-				vPosition2 = VectorList[i];
+				position1 = VectorList[i - 1];
+				position2 = VectorList[i];
 
 				// Calculate the distance between the two vectors.
-				fDistance = Vector2.Distance(vPosition1, vPosition2);
+				fDistance = Vector2.Distance(position1, position2);
 
 				// Calculate the angle between the two vectors.
-				fAngle = (float)Math.Atan2((double)(vPosition2.Y - vPosition1.Y),
-										   (double)(vPosition2.X - vPosition1.X));
+				fAngle = (float)Math.Atan2((double)(position2.Y - position1.Y),
+										   (double)(position2.X - position1.X));
 
 				// Stretch the pixel between the two vectors.
 				_spriteBatch.Draw(Texture,
-								  Position + vPosition1 + 0.5f * (vPosition2 - vPosition1),
+								  Position + position1 + 0.5f * (position2 - position1),
 								  null,
 								  Color,
 								  fAngle,
@@ -687,7 +690,7 @@ namespace BasicPrimitiveBuddy
 
 				// Render the points of the polygon.
 				_spriteBatch.Draw(Texture,
-								  Position + vPosition1,
+								  Position + position1,
 								  null,
 								  Color,
 								  fAngle,
@@ -707,34 +710,34 @@ namespace BasicPrimitiveBuddy
 		/// </summary>
 		/// <param name="_fAngle">The counterclockwise rotation in radians. (0.0f is default).</param>
 		/// <param name="_vPivot">Position in which to rotate around.</param>
-		public void Rotate(float _fAngle, Vector2 _vPivot)
+		public void Rotate(float angle, Vector2 pivot)
 		{
 			// Subtract pivot from all points.
 			for (int i = VectorList.Count - 1; i >= 0; --i)
-				VectorList[i] -= _vPivot;
+				VectorList[i] -= pivot;
 
 			// Rotate about the origin.
-			Matrix mat = Matrix.CreateRotationZ(_fAngle);
+			Matrix mat = Matrix.CreateRotationZ(angle);
 			for (int i = VectorList.Count - 1; i >= 0; --i)
 				VectorList[i] = Vector2.Transform(VectorList[i], mat);
 
 			// Add pivot to all points.
 			for (int i = VectorList.Count - 1; i >= 0; --i)
-				VectorList[i] += _vPivot;
+				VectorList[i] += pivot;
 		}
 
 		/// <summary>
 		/// draw a single point
 		/// </summary>
-		/// <param name="vPosition">where to draw the circle</param>
-		/// <param name="fRadius">radius of the desired circle</param>
-		/// <param name="myColor">color of the circle to draw</param>
+		/// <param name="position">where to draw the circle</param>
+		/// <param name="radius">radius of the desired circle</param>
+		/// <param name="color">color of the circle to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void Point(Vector2 vPosition, Color myColor)
+		public void Point(Vector2 position, Color color)
 		{
 			Clear();
-			Position = vPosition;
-			Color = myColor;
+			Position = position;
+			Color = color;
 			CreateCircle(1.0f, NumCircleSegments);
 			RenderLinePrimitive();
 		}
@@ -742,46 +745,46 @@ namespace BasicPrimitiveBuddy
 		/// <summary>
 		/// draw a quick circle
 		/// </summary>
-		/// <param name="vPosition">where to draw the circle</param>
-		/// <param name="fRadius">radius of the desired circle</param>
-		/// <param name="myColor">color of the circle to draw</param>
+		/// <param name="position">where to draw the circle</param>
+		/// <param name="radius">radius of the desired circle</param>
+		/// <param name="color">color of the circle to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void Circle(Vector2 vPosition, float fRadius, Color myColor)
+		public void Circle(Vector2 position, float radius, Color color)
 		{
 			Clear();
-			Position = vPosition;
-			Color = myColor;
-			CreateCircle(fRadius, NumCircleSegments);
+			Position = position;
+			Color = color;
+			CreateCircle(radius, NumCircleSegments);
 			RenderLinePrimitive();
 		}
 
 		/// <summary>
 		/// draw a quick line
 		/// </summary>
-		/// <param name="vStart">start point</param>
-		/// <param name="vEnd">end point</param>
-		/// <param name="myColor">color of the line to draw</param>
+		/// <param name="start">start point</param>
+		/// <param name="end">end point</param>
+		/// <param name="color">color of the line to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void Line(Vector2 vStart, Vector2 vEnd, Color myColor)
+		public void Line(Vector2 start, Vector2 end, Color color)
 		{
 			Clear();
-			Color = myColor;
-			CreateLine(vStart, vEnd);
+			Color = color;
+			CreateLine(start, end);
 			RenderLinePrimitive();
 		}
 
 		/// <summary>
 		/// draw a quick box
 		/// </summary>
-		/// <param name="vUpperLeft">start point</param>
-		/// <param name="vLowerRight">end point</param>
-		/// <param name="myColor">color of the line to draw</param>
+		/// <param name="upperLeft">start point</param>
+		/// <param name="lowerRight">end point</param>
+		/// <param name="color">color of the line to draw</param>
 		/// <param name="mySpriteBatch">graphic object used to draw</param>
-		public void AxisAlignedBox(Vector2 vUpperLeft, Vector2 vLowerRight, Color myColor)
+		public void AxisAlignedBox(Vector2 upperLeft, Vector2 lowerRight, Color color)
 		{
 			Clear();
-			Color = myColor;
-			CreateSquare(vUpperLeft, vLowerRight);
+			Color = color;
+			CreateSquare(upperLeft, lowerRight);
 			RenderLinePrimitive();
 		}
 
@@ -789,29 +792,29 @@ namespace BasicPrimitiveBuddy
 		/// draw a quick box
 		/// </summary>
 		/// <param name="rect">the rectangle to draw</param>
-		/// <param name="myColor">color of the line to draw</param>
-		public void Rectangle(Rectangle rect, Color myColor)
+		/// <param name="color">color of the line to draw</param>
+		public void Rectangle(Rectangle rect, Color color)
 		{
 			Clear();
 			AxisAlignedBox(new Vector2(rect.Left, rect.Top),
 						   new Vector2(rect.Left + rect.Width, rect.Top + rect.Height),
-						   myColor);
+						   color);
 		}
 
 		/// <summary>
 		/// Draw a stupid rectanlge.
 		/// This is the easiest way to draw a rectangle
 		/// </summary>
-		/// <param name="vUpperLeft">start point</param>
-		/// <param name="vLowerRight">end point</param>
-		/// <param name="fScale">the scale to draw the rectangle</param>
-		/// <param name="myColor">the color to use to draw the rectangle</param>
-		public void Rectangle(Vector2 vUpperLeft, Vector2 vLowerRight, float fRotation, float fScale, Color myColor)
+		/// <param name="upperLeft">start point</param>
+		/// <param name="lowerRight">end point</param>
+		/// <param name="scale">the scale to draw the rectangle</param>
+		/// <param name="color">the color to use to draw the rectangle</param>
+		public void Rectangle(Vector2 upperLeft, Vector2 lowerRight, float rotation, float scale, Color color)
 		{
 			Clear();
-			Color = myColor;
-			CreateSquare(vUpperLeft, vLowerRight);
-			Rotate(fRotation, vUpperLeft); //this prolly dont work
+			Color = color;
+			CreateSquare(upperLeft, lowerRight);
+			Rotate(rotation, upperLeft); //this prolly dont work
 			RenderLinePrimitive();
 		}
 
@@ -819,13 +822,21 @@ namespace BasicPrimitiveBuddy
 		/// draw a pie shape
 		/// </summary>
 		/// <param name="Position">location to draw the pie</param>
-		/// <param name="iRadius">the radius of the pie</param>
-		/// <param name="fStartAngle">the angle to start the pie</param>
-		/// <param name="fSweepAngle">the sweep angle of the pie</param>
-		/// <param name="rColor">color dat pie</param>
-		public void Pie(Vector2 position, int iRadius, float fStartAngle, float fSweepAngle, Color rColor)
+		/// <param name="radius">the radius of the pie</param>
+		/// <param name="startAngle">the angle to start the pie</param>
+		/// <param name="sweepAngle">the sweep angle of the pie</param>
+		/// <param name="color">color dat pie</param>
+		public void Pie(Vector2 position, float radius, float startAngle, float sweepAngle, Color color)
 		{
-			//TODO: draw a pie shape.
+			Clear();
+			Position = position;
+			Color = color;
+
+			VectorList.Add(Vector2.Zero);
+			CreateArc(radius, NumCircleSegments, startAngle, sweepAngle);
+			VectorList.Add(Vector2.Zero);
+
+			RenderLinePrimitive();
 		}
 
 		#endregion // Public Methods

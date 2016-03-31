@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BasicPrimitiveBuddy")]
+[assembly: AssemblyTitle("PrimitiveBuddy.WindowsGL")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hewlett-Packard")]
-[assembly: AssemblyProduct("BasicPrimitiveBuddy")]
-[assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2013")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("PrimitiveBuddy.WindowsGL")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e8c8c307-ec73-4b94-957a-b7f346cc0bf6")]
+[assembly: Guid("7eeaef2a-7f63-4089-bcc2-fdf576ef9071")]
 
 // Version information for an assembly consists of the following four values:
 //

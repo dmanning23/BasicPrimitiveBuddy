@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>PrimitiveBuddy.Android</id>
+        <version>1.0.1</version>
+        <title>PrimitiveBuddy.Android</title>
+        <authors>dmanning23</authors>
+		<owners>dmanning23</owners>
+		<projectUrl>https://github.com/dmanning23/BasicPrimitiveBuddy</projectUrl>
+		<licenseUrl>https://github.com/dmanning23/BasicPrimitiveBuddy/blob/master/LICENSE.txt</licenseUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>MonoGame library for drawing primitive shapes</description>
+        <releaseNotes />
+        <copyright>Copyright 2016</copyright>
+        <tags>MonoGame Android</tags>
+        <dependencies>
+            <dependency id="MonoGame.Framework.Android" version="(3.5,)"/>
+		</dependencies>
+    </metadata>
+    <files>
+        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.Android\bin\Release\PrimitiveBuddy.Android.pdb" target="lib\PrimitiveBuddy.Android.pdb" />
+        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.Android\bin\Release\PrimitiveBuddy.Android.dll" target="lib\PrimitiveBuddy.Android.dll" />
+    </files>
+</package>
