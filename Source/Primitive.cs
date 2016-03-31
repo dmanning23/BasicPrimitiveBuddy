@@ -154,14 +154,17 @@ namespace PrimitiveBuddy
 		/// <param name="sides">The number of sides on the circle. (64 is average).</param>
 		private void CreateArc(float radius, int sides, float startAngle, float sweepAngle)
 		{
-			float delta = sweepAngle / MathHelper.TwoPi;
-			float fStep = sweepAngle / (delta * sides);
+			float step = sweepAngle / (float)sides;
 
 			// Create the full circle.
-			for (float fTheta = startAngle; fTheta <= startAngle + sweepAngle; fTheta += fStep)
+			var numSteps = 0;
+			var theta = startAngle;
+			while (numSteps < sides + 1)
 			{
-				VectorList.Add(new Vector2(radius * (float)Math.Cos(fTheta),
-											 radius * (float)Math.Sin(fTheta)));
+				VectorList.Add(new Vector2(radius * (float)Math.Cos(theta),
+											 radius * (float)Math.Sin(theta)));
+				numSteps++;
+				theta += step;
 			}
 		}
 
