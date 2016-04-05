@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>PrimitiveBuddy.WindowsGL</id>
-        <version>1.0.2</version>
-        <title>PrimitiveBuddy.WindowsGL</title>
+        <id>PrimitiveBuddy.iOS</id>
+        <version>1.0.3</version>
+        <title>PrimitiveBuddy.iOS</title>
         <authors>dmanning23</authors>
 		<owners>dmanning23</owners>
 		<projectUrl>https://github.com/dmanning23/BasicPrimitiveBuddy</projectUrl>
@@ -12,13 +12,13 @@
 		<description>MonoGame library for drawing primitive shapes</description>
         <releaseNotes />
         <copyright>Copyright 2016</copyright>
-        <tags>MonoGame WindowsGL</tags>
+        <tags>MonoGame iOS</tags>
         <dependencies>
-            <dependency id="MonoGame.Framework.WindowsGL" version="(3.5,)"/>
+            <dependency id="MonoGame.Framework.iOS" version="(3.5,)"/>
 		</dependencies>
     </metadata>
     <files>
-        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.WindowsGL\bin\Release\PrimitiveBuddy.WindowsGL.pdb" target="lib\PrimitiveBuddy.WindowsGL.pdb" />
-        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.WindowsGL\bin\Release\PrimitiveBuddy.WindowsGL.dll" target="lib\PrimitiveBuddy.WindowsGL.dll" />
+        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.iOS\bin\Release\PrimitiveBuddy.iOS.pdb" target="lib\PrimitiveBuddy.iOS.pdb" />
+        <file src="Y:\Documents\Projects\BasicPrimitiveBuddy\PrimitiveBuddy\PrimitiveBuddy.iOS\bin\Release\PrimitiveBuddy.iOS.dll" target="lib\PrimitiveBuddy.iOS.dll" />
     </files>
 </package>
