@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>PrimitiveBuddy</id>
+		<version>1.0.0</version>
+		<title>PrimitiveBuddy</title>
+		<authors>dmanning23</authors>
+		<owners>dmanning23</owners>
+		<projectUrl>https://github.com/dmanning23/PrimitiveBuddy</projectUrl>
+		<licenseUrl>https://github.com/dmanning23/PrimitiveBuddy/blob/master/LICENSE.txt</licenseUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>MonoGame library for drawing primitive shapes</description>
+		<releaseNotes />
+		<copyright>Copyright 2016</copyright>
+		<tags>pcl, windows phone, winphone, android, ios, windows universal, monogame</tags>
+		<dependencies>
+
+			<!--Xamarin.Android-->
+			<group targetFramework="MonoAndroid10">
+				<dependency id="MonoGame.Framework.Android" version="3.5"/>
+			</group>
+
+			<!--Xamarin.iOS Unified-->
+			<group targetFramework="Xamarin.iOS10">
+				<dependency id="MonoGame.Framework.iOS" version="3.5"/>
+			</group>
+
+			<!--Win Universal-->
+			<group targetFramework="uap10.0">
+				<dependency id="MonoGame.Framework.WindowsUniversal" version="3.5"/>
+				<dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.1"/>
+				<dependency id="SharpDX" version="[3.0.0]"/>
+				<dependency id="SharpDX.Direct2D1" version="[3.0.0]"/>
+				<dependency id="SharpDX.Direct3D11" version="[3.0.0]"/>
+			</group>
+
+			<group targetFramework="net451">
+				<dependency id="MonoGame.Framework.DesktopGL" version="3.5"/>
+			</group>
+
+		</dependencies>
+	</metadata>
+	<files>
+
+		<!--Xamarin.Android-->
+		<file src="PrimitiveBuddy.Android\bin\Release\PrimitiveBuddy.Android.pdb" target="lib\MonoAndroid10\PrimitiveBuddy.Android.pdb" />
+		<file src="PrimitiveBuddy.Android\bin\Release\PrimitiveBuddy.Android.dll" target="lib\MonoAndroid10\PrimitiveBuddy.Android.dll" />
+
+		<!--Xamarin.iOS Unified-->
+		<file src="PrimitiveBuddy.iOS\bin\Release\PrimitiveBuddy.iOS.pdb" target="lib\Xamarin.iOS10\PrimitiveBuddy.iOS.pdb" />
+		<file src="PrimitiveBuddy.iOS\bin\Release\PrimitiveBuddy.iOS.dll" target="lib\Xamarin.iOS10\PrimitiveBuddy.iOS.dll" />
+
+		<!--Windows Universal-->
+		<file src="PrimitiveBuddy.WindowsUniversal\bin\Release\PrimitiveBuddy.WindowsUniversal.pdb" target="lib\uap10.0\PrimitiveBuddy.WindowsUniversal.pdb" />
+		<file src="PrimitiveBuddy.WindowsUniversal\bin\Release\PrimitiveBuddy.WindowsUniversal.dll" target="lib\uap10.0\PrimitiveBuddy.WindowsUniversal.dll" />
+
+		<!--DesktopGL-->
+		<file src="PrimitiveBuddy.DesktopGL\bin\Release\PrimitiveBuddy.DesktopGL.pdb" target="lib\net451\PrimitiveBuddy.DesktopGL.pdb" />
+		<file src="PrimitiveBuddy.DesktopGL\bin\Release\PrimitiveBuddy.DesktopGL.dll" target="lib\net451\PrimitiveBuddy.DesktopGL.dll" />
+
+	</files>
+</package>

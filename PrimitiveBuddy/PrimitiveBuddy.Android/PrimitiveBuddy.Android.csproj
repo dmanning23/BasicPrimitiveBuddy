@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="PrimitiveBuddy.Android.nuspec" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
