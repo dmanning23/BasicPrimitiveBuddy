@@ -7,7 +7,10 @@ namespace PrimitiveBuddy
 	/// </summary>
 	public interface IPrimitive
 	{
-		#region Public Methods
+		/// <summary>
+		/// The number of segments to use to draw circles.
+		/// </summary>
+		int NumCircleSegments { get; set; }
 
 		/// <summary>
 		/// draw a single point
@@ -71,7 +74,5 @@ namespace PrimitiveBuddy
 		/// Get/Set the thickness of the shape's edge.
 		/// </summary>
 		float Thickness { get; set; }
-
-		#endregion // Public Methods
 	}
 }
