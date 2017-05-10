@@ -71,6 +71,16 @@ namespace PrimitiveBuddy
 		void Pie(Vector2 Position, float radius, float startAngle, float sweepAngle, Color color);
 
 		/// <summary>
+		/// draw a pie shape
+		/// </summary>
+		/// <param name="Position">location to draw the pie</param>
+		/// <param name="radius">the radius of the pie</param>
+		/// <param name="startAngle">the angle to start the pie</param>
+		/// <param name="sweepAngle">the sweep angle of the pie</param>
+		/// <param name="color">color dat pie</param>
+		void SineWave(Vector2 start, Vector2 end, float frequency, float amplitude, Color color);
+
+		/// <summary>
 		/// Get/Set the thickness of the shape's edge.
 		/// </summary>
 		float Thickness { get; set; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Vector2Extensions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,23 @@ namespace PrimitiveBuddy
 			// Create the pixel texture.
 			Texture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			Texture.SetData<Color>(new Color[] { Color.White });
+			Thickness = 1.0f;
+		}
+
+		/// <summary>
+		/// Creates a new primitive object.
+		/// </summary>
+		/// <param name="texture">A texture to use to draw.</param>
+		/// <param name="spritebatch">The spritebatch object to use.</param>
+		public Primitive(Texture2D texture, SpriteBatch spritebatch)
+		{
+			NumCircleSegments = 20;
+			_spriteBatch = spritebatch;
+			VectorList = new List<Vector2>();
+			Color = Color.White;
+
+			// Create the pixel texture.
+			Texture = texture;
 			Thickness = 1.0f;
 		}
 
@@ -838,6 +856,44 @@ namespace PrimitiveBuddy
 			VectorList.Add(Vector2.Zero);
 			CreateArc(radius, NumCircleSegments, startAngle, sweepAngle);
 			VectorList.Add(Vector2.Zero);
+
+			RenderLinePrimitive();
+		}
+
+		public void SineWave(Vector2 start, Vector2 end, float frequency, float amplitude, Color color)
+		{
+			Clear();
+			Color = color;
+
+			//get the length of the sine wave
+			var length = (end - start).Length();
+
+			//lay out all the points
+			float segmentLength = 5f;
+			float xPos = 0f;
+			float mid = length / 2f;
+			while ((xPos + segmentLength) < length)
+			{
+				var ratio = 1f - (Math.Abs(mid - xPos) / mid);
+				VectorList.Add(new Vector2(xPos, ratio * (float)(Math.Sin(frequency * xPos) * amplitude)));
+				//VectorList.Add(new Vector2(xPos, 0));
+				xPos += segmentLength;
+			}
+
+			//add the last line segment at the end
+			VectorList.Add(new Vector2(length, 0f));
+
+			//create the rotaion matrix
+			Matrix mat = Matrix.CreateRotationZ((end - start).Angle());
+
+			//multiply the rotaion by the translation matrices
+			mat *= Matrix.CreateTranslation(start.X, start.Y, 0f);
+
+			//multiply each point by the combined matrix
+			for (int i = 0; i < VectorList.Count; i++)
+			{
+				VectorList[i] = MatrixExtensions.MatrixExt.Multiply(mat, VectorList[i]);
+			}
 
 			RenderLinePrimitive();
 		}

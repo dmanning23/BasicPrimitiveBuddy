@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
 		<id>PrimitiveBuddy</id>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<title>PrimitiveBuddy</title>
 		<authors>dmanning23</authors>
 		<owners>dmanning23</owners>
@@ -18,11 +18,17 @@
 			<!--Xamarin.Android-->
 			<group targetFramework="MonoAndroid10">
 				<dependency id="MonoGame.Framework.Android" version="3.5"/>
+				<dependency id="MatrixExtensions" version="1.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="1.0"/>
+				<dependency id="Vector2Extensions" version="1.0.1"/>
 			</group>
 
 			<!--Xamarin.iOS Unified-->
 			<group targetFramework="Xamarin.iOS10">
 				<dependency id="MonoGame.Framework.iOS" version="3.5"/>
+				<dependency id="MatrixExtensions" version="1.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="1.0"/>
+				<dependency id="Vector2Extensions" version="1.0.1"/>
 			</group>
 
 			<!--Win Universal-->
@@ -32,10 +38,16 @@
 				<dependency id="SharpDX" version="[3.0.0]"/>
 				<dependency id="SharpDX.Direct2D1" version="[3.0.0]"/>
 				<dependency id="SharpDX.Direct3D11" version="[3.0.0]"/>
+				<dependency id="MatrixExtensions" version="1.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="1.0"/>
+				<dependency id="Vector2Extensions" version="1.0.1"/>
 			</group>
 
 			<group targetFramework="net451">
 				<dependency id="MonoGame.Framework.DesktopGL" version="3.5"/>
+				<dependency id="MatrixExtensions" version="1.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="1.0"/>
+				<dependency id="Vector2Extensions" version="1.0.1"/>
 			</group>
 
 		</dependencies>
