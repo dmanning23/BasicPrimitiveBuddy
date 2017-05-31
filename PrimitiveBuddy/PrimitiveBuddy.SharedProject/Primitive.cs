@@ -9,7 +9,7 @@ namespace PrimitiveBuddy
 	/// <summary>
 	/// Render a simple 2D shape.
 	/// </summary>
-	public class Primitive : IPrimitive
+	public class Primitive : IPrimitive, IDisposable
 	{
 		#region Fields
 
@@ -23,6 +23,8 @@ namespace PrimitiveBuddy
 		/// </summary>
 		private readonly SpriteBatch _spriteBatch;
 
+		private Texture2D _texture;
+
 		#endregion //Fields
 
 		#region Properties
@@ -30,7 +32,20 @@ namespace PrimitiveBuddy
 		/// <summary>
 		/// Blank 1x1 pixel that creates the shape.
 		/// </summary>
-		public Texture2D Texture { get; set; }
+		public Texture2D Texture
+		{
+			get
+			{
+				return _texture;
+			}
+			set
+			{
+				_texture = value;
+				_manageTexture = false;
+			}
+		}
+
+		private bool _manageTexture;
 
 		/// <summary>
 		/// Get/Set the colour of the primitive object.
@@ -80,7 +95,8 @@ namespace PrimitiveBuddy
 			Color = Color.White;
 
 			// Create the pixel texture.
-			Texture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			_manageTexture = true;
+			_texture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			Texture.SetData<Color>(new Color[] { Color.White });
 			Thickness = 1.0f;
 		}
@@ -110,6 +126,15 @@ namespace PrimitiveBuddy
 			Color = Color.White;
 			Position = Vector2.Zero;
 			VectorList.Clear();
+		}
+
+		public void Dispose()
+		{
+			if (_manageTexture && (null != _texture))
+			{
+				_texture.Dispose();
+				_texture = null;
+			}
 		}
 
 		#endregion // Initialization
