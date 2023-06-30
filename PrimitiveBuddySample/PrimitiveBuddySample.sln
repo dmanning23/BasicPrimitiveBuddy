@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimitiveBuddySample.WindowsGL", "PrimitiveBuddySample.WindowsGL\PrimitiveBuddySample.WindowsGL.csproj", "{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PrimitiveBuddySample.Core", "PrimitiveBuddySample.Core\PrimitiveBuddySample.Core.shproj", "{620040B3-12DA-4784-90E4-E9D1ADA84414}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Debug|x86.ActiveCfg = Debug|x86
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Debug|x86.Build.0 = Debug|x86
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Release|Any CPU.ActiveCfg = Release|x86
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Release|x86.ActiveCfg = Release|x86
+		{4E5BBDF2-CD34-49C8-8E97-CE99B2B286A9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {147E2967-5F1A-49C3-B781-1986CB2226D1}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PrimitiveBuddySample.Core\PrimitiveBuddySample.Core.projitems*{4e5bbdf2-cd34-49c8-8e97-ce99b2b286a9}*SharedItemsImports = 4
+		PrimitiveBuddySample.Core\PrimitiveBuddySample.Core.projitems*{620040b3-12da-4784-90e4-e9d1ada84414}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal
