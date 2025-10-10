@@ -1,8 +1,8 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin/WindowsGL
-/intermediateDir:obj/WindowsGL
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
 /platform:DesktopGL
 /config:
 /profile:Reach
@@ -24,4 +24,3 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:rope.png
-

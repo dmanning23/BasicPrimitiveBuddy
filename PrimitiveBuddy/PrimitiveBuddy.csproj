@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <PackageId>PrimitiveBuddy</PackageId>
+    <Version>5.0.0</Version>
+    <Title>PrimitiveBuddy</Title>
+    <Authors>dmanning23</Authors>
+    <description>MonoGame library for drawing primitive shapes</description>
+    <PackageProjectUrl>https://github.com/dmanning23/PrimitiveBuddy</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/dmanning23/PrimitiveBuddy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>monogame</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MatrixExtensions" Version="5.*" />
+    <PackageReference Include="RandomExtensions.dmanning23" Version="5.*" />
+    <PackageReference Include="Vector2Extensions" Version="5.*" />
+  </ItemGroup>
+</Project>
